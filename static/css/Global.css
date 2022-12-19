@@ -1,0 +1,42 @@
+html * {
+    font-family: Helvetica, system-ui;
+    color: #1c1c1c;
+    margin: 0;
+}
+
+.navbar {
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
+    padding-top: 10px;
+    outline: solid black;
+}
+
+/* Links inside the navbar */
+.navbar a {
+    float: left;
+    text-align: center;
+    padding: 10px;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.title-div {
+    display: flex;
+    justify-content: center;
+}
+
+.page-title {
+    font-weight: bold;
+    font-size: 70px;
+    padding-top: 50px;
+}
+
+.section {
+    padding-left: 20px;
+}

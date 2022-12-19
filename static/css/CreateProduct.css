@@ -1,0 +1,13 @@
+#page-title {
+    padding-bottom: 50px;
+}
+
+#create-product-title {
+    padding-bottom: 15px;
+}
+
+#create-product-div {
+    display: flex;
+    flex-direction: row;
+}
+
