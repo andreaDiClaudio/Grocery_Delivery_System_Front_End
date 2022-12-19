@@ -126,6 +126,41 @@ async function postDelivery() {
 }
 
 //Create pOst for ProductOrder after posting the delivery, insert in the postMethod of the ProductOrder the product retreieved from table, the quantity retrieved from table and the delivery retrieved from db
+async function postProductOrder() {
+
+    let year = document.getElementById("delivery-date-year-input").value
+    let month = document.getElementById("delivery-date-month-input").value
+    let day = document.getElementById("delivery-date-day-input").value
+    let warehouse = document.querySelector("#warehouse-drop-down").value
+    let destination = document.getElementById("destination-input").value
+
+    console.log(warehouse)
+
+    let date = year + "-" + month + "-" + day
+
+    //TODO create deeper constraints for day/month/year
+    if (year != "" && year > 2021
+        && month != "" && month < 13 && month > 0
+        && day != "" && day > 0 && day < 32
+        && warehouse != ""
+        && destination != "") {
+
+        const productOrder = {
+            "quantity": 7,
+            "delivery": {
+                "deliveryId": 7,
+                "deliveryDate": "2022-12-23",
+                "fromWarehouse": "W1",
+                "destination": "Mads Sørensen, Bygmestervej 82, 1592"
+            },
+            "product": {
+                "productId": 5,
+            }
+        }
+    } else {
+        alert("Please fill all the fields with the correct info before creating a new Delivery")
+    }
+}
 
 //GET By id product from table and pass it in the post of productOrder
 async function getProductById() {
@@ -147,3 +182,4 @@ function readDropDown(selectedValue) {
     console.log(dropDownPrice)
     console.log(dropDownWeight)
 }
+
