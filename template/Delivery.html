@@ -31,7 +31,7 @@
 
 <!--Input fields-->
 <div class="section" id="create-delivery-div">
-    <div class="create-delivery-inputs-div">
+    <div class="create-delivery-inputs-div" id="create-delivery-inputs-div">
 
         <label>
             Delivery Date:
@@ -55,21 +55,22 @@
 
         <!--Table-->
 
-            <div id="product-table-div">
-                <table>
-                    <thead>
-                    <tr>
-                        <th id="product-table-header" >Product</th>
-                        <th id="quantity-table-header">Quantity</th>
-                    </tr>
-                    </thead>
-                    <tbody id="product-table-body">
-                    </tbody>
-                </table>
-                <button id="add-product-quantity-button">Add Product</button>
-            </div>
-
-        <button id="create-delivery-button">Create New Delivery</button>
+        <div id="create-delivery-table-div">
+            <table>
+                <thead>
+                <tr>
+                    <th id="product-table-header">Product</th>
+                    <th id="quantity-table-header">Quantity</th>
+                </tr>
+                </thead>
+                <tbody id="product-table-body">
+                </tbody>
+            </table>
+            <button id="add-product-quantity-button">Add Product</button>
+        </div>
+        <div id="create-delivery-button-div">
+            <button id="create-delivery-button">Create New Delivery</button>
+        </div>
     </div>
 </div>
 

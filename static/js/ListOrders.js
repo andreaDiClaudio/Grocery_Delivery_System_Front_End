@@ -79,8 +79,6 @@ async function fillDropDownDelivery(list) {
         }
     })
 
-    console.log(warehouseArray)
-
     for (let i = 0; i < warehouseArray.length; i++) {
 
         let opt = document.createElement('option');

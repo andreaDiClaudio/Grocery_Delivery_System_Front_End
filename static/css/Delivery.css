@@ -13,13 +13,23 @@
 
 .create-delivery-inputs-div {
     padding: 10px;
+    display: inline-block;
+}
+
+#create-delivery-table-div {
+    padding: 15px;
+}
+
+#create-delivery-button-div {
+    display: flex;
+    justify-content: end;
 }
 
 #display-order-div {
     justify-content: center;
 }
 
-#orders-drop-down-div{
+#orders-drop-down-div {
     padding-bottom: 15px;
 }
 
