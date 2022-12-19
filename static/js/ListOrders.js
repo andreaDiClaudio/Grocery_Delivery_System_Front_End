@@ -69,7 +69,6 @@ async function fillDropDownDelivery(list) {
     opt.innerHTML = "All";
     list.appendChild(opt);
 
-
     //Filters only unique warehouses
     options.forEach(delivery => {
         if (warehouseArray.includes(delivery.fromWarehouse)) {
