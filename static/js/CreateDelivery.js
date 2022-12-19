@@ -2,11 +2,59 @@
 console.log("Inside CreateDelivery")
 //Url
 const postDeliveryUrl = "http://localhost:8080/delivery"
+const getProductsUrl = "http://localhost:8080/products"
 
 //Elements from Html
 const createDeliveryButton = document.getElementById("create-delivery-button")
+const addRowButton = document.getElementById("add-product-quantity-button")
+const productTableBody = document.getElementById("product-table-body")
+
 //EventListener
 createDeliveryButton.addEventListener('click', postDelivery)
+addRowButton.addEventListener('click', createProductQuantityTable)
+
+//varibale to increment the id of the quantityInputTable inside create table function
+let quantityInputTableId = 1
+let productInputTableId = 1
+
+async function getProduct() {
+    return (await fetch(getProductsUrl)).json()
+}
+
+//Create the table
+async function createProductQuantityTable() {
+
+    let products = await getProduct()
+
+    let cellCount = 0
+    let rowCount = productTableBody.rows.length
+
+    let row = productTableBody.insertRow(rowCount)
+
+    //Product Dropdown
+    let cell = row.insertCell(cellCount++)
+    let dropDownProductTable = document.createElement('select')
+
+    products.forEach(product => {
+        dropDownProductTable.id = "drop-down-product-table" + productInputTableId
+        const option = document.createElement('option')
+
+        option.textContent = product.name
+        option.value = productInputTableId
+        dropDownProductTable.appendChild(option)
+    })
+    cell.appendChild(dropDownProductTable)
+
+    //Quantity
+    cell = row.insertCell(cellCount++)
+    let quatityInputTable = document.createElement('input')
+    quatityInputTable.id = "total-time-input-table" + quantityInputTableId
+    quatityInputTable.type = "number"
+    cell.appendChild(quatityInputTable)
+
+    quantityInputTableId++
+    productInputTableId++
+}
 
 //function to post new Delivery
 async function postDelivery() {
