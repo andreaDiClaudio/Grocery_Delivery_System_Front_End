@@ -2,7 +2,7 @@
     padding-bottom: 50px;
 }
 
-#create-product-title {
+#create-delivery-title {
     padding-bottom: 15px;
 }
 
@@ -11,15 +11,15 @@
     flex-direction: row;
 }
 
-.create-product-inputs-div {
+.create-delivery-inputs-div {
     padding: 10px;
 }
 
-#display-products-div {
+#display-delivery-div {
     justify-content: center;
 }
 
-#display-products-title {
+#display-delivery-title {
     padding-top: 15px;
     padding-bottom: 15px;
 }
