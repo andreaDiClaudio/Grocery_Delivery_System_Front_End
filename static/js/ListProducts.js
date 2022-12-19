@@ -1,8 +1,10 @@
-//TASK 2 - List all Products
+//TASK 2 - List all Products - DONE
 console.log("Inside ListProducts.js")
 
 //Url
 const getProductsUrl = "http://localhost:8080/products"
+const deleteProductUrl = "http://localhost:8080/deleteProduct/"
+const updateProductUrl = "http://localhost:8080/editProduct/"
 
 //Elements from Html
 const tableBody = document.getElementById("table-body")
@@ -11,18 +13,85 @@ const tableBody = document.getElementById("table-body")
 window.onload = loadTable()
 
 //Function to fetch Products
-async function getProducts(){
+async function getProducts() {
     return (await fetch(getProductsUrl)).json()
 }
 
+//TASK 2 - Delete Product - DONE TODO alert message if the product is linked to a delivery
+//Function to call the deleteProduct()
+async function doDeleteProduct(productId) {
+    const response = await deleteProduct(productId)
+    return response
+}
+
+//Function send DELETE Request
+async function deleteProduct(productId) {
+
+    const fetchOptions = {
+        method: 'DELETE'
+    }
+
+    const response = await fetch(deleteProductUrl + productId, fetchOptions)
+
+    if (!response.ok) {
+        const errorMessage = await response.text()
+        throw new Error(errorMessage)
+    }
+    location.reload()
+}
+
+//TASK 2 - Edit Product - DONE
+//Function to call updateProduct()
+async function doUpdateProduct(productId) {
+    return await updateProduct(productId)
+}
+
+//Function send PUT Request
+async function updateProduct(productId) {
+
+    let name = document.getElementById("name-input-table" + productId).value
+    let price = document.getElementById("price-input-table" + productId).value
+    let weight = document.getElementById("weight-input-table" + productId).value
+
+    if (name != '' && price != '' && weight != '') {
+
+        const product = {
+            "name": name,
+            "price": price,
+            "weight": weight
+        }
+
+        const fetchOptions = {
+            method: 'PUT',
+            headers: {
+                "content-type": "application/json"
+            },
+            body: ""
+        }
+
+        fetchOptions.body = JSON.stringify(product)
+
+        const response = await fetch(updateProductUrl + productId, fetchOptions)
+
+        if (!response.ok) {
+            const errorMessage = await response.text()
+            throw new Error(errorMessage)
+        }
+        alert("Product Successfully updated")
+        location.reload()
+    } else {
+        alert("Please fill all the fields before editing a product")
+    }
+}
+
 //Function to load the table
-async function loadTable(){
+async function loadTable() {
     let productsArray = await getProducts()
     productsArray.forEach(product => createProductTable(product))
 }
 
 //Function to Create the table
-function createProductTable(product){
+function createProductTable(product) {
 
     let cellCount = 0
     let rowCount = tableBody.rows.length
@@ -36,7 +105,7 @@ function createProductTable(product){
     //Name
     cell = row.insertCell(cellCount++)
     let nameInputTable = document.createElement('input')
-    nameInputTable.id = "first-name-input-table" + product.productId
+    nameInputTable.id = "name-input-table" + product.productId
     nameInputTable.type = "text"
     nameInputTable.setAttribute('value', product.name)
     cell.appendChild(nameInputTable)
@@ -44,7 +113,7 @@ function createProductTable(product){
     //Price
     cell = row.insertCell(cellCount++)
     let priceInputTable = document.createElement('input')
-    priceInputTable.id = "age-input-table" + product.productId
+    priceInputTable.id = "price-input-table" + product.productId
     priceInputTable.type = "number"
     priceInputTable.setAttribute('value', product.price)
     cell.appendChild(priceInputTable)
@@ -52,7 +121,7 @@ function createProductTable(product){
     //Weight
     cell = row.insertCell(cellCount++)
     let weightInputTable = document.createElement('input')
-    weightInputTable.id = "age-input-table" + product.productId
+    weightInputTable.id = "weight-input-table" + product.productId
     weightInputTable.type = "number"
     weightInputTable.setAttribute('value', product.weight)
     cell.appendChild(weightInputTable)
@@ -62,37 +131,34 @@ function createProductTable(product){
     cell = row.insertCell(cellCount++)
     let editButton = document.createElement("button")
     editButton.textContent = "Edit"
-    /*
+
+    //TASK 2 - Edit Product - DONE
     editButton.addEventListener('click', function () {
-        let result = confirm("You are updating racer: '" + product.name + "\nPress ok to continue")
+        let result = confirm("You are updating product: '" + product.name + "'" + "\nPress ok to continue")
         if (result) {
             doUpdateProduct(product.productId)
-            alert("Racer Successfully updated")
         } else {
         }
     })
-
-     */
     cell.appendChild(editButton)
-
 
     //Delete Button
     let deleteButton = document.createElement("button")
     deleteButton.textContent = "Delete"
-    /*
+
+    //TODO alert message if the product is linked to a delivery
+    //TASK 2 - Delete Product - DONE
     deleteButton.addEventListener('click', function () {
         console.log("Delete working")
-        let result = confirm("You are deleting racer: '" + racer.firstName + " " + racer.lastName + "'. " +
+        let result = confirm("You are deleting product: '" + product.name + "'" +
             "\nYou cannot undo this action." +
             "\nPress ok to continue")
         if (result) {
-            doDeleteRacer(racer.racerId)
-            alert("Racer Successfully deleted")
+            doDeleteProduct(product.productId)
+            alert("Product Successfully deleted")
             location.reload()
         } else {
         }
     })
-
-     */
     cell.appendChild(deleteButton)
 }
