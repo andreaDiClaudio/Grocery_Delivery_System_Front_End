@@ -108,7 +108,10 @@ async function postProductOrder(id) {
             "delivery": {
                 "deliveryDate": date,
                 "fromWarehouse": warehouse,
-                "destination": destination
+                "destination": destination,
+                "van": {
+                    "vanId": document.querySelector("#van-drop-down").value
+                }
             },
             "product": {
                 "productId": document.querySelector("#quantity-input-table" + id).value,
