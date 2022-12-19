@@ -130,4 +130,9 @@ async function createOrdersTable(productOrder) {
     //Quantity
     cell = row.insertCell(cellCount++)
     cell.innerHTML = productOrder.quantity
+
+    //Total Price
+    cell = row.insertCell(cellCount++)
+    let totalPrice = productOrder.quantity * productOrder.product.price
+    cell.innerHTML = totalPrice + " dkk"
 }
