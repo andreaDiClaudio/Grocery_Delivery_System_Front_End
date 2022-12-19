@@ -4,6 +4,7 @@ console.log("Inside CreateDelivery")
 const postDeliveryUrl = "http://localhost:8080/delivery"
 const getProductsUrl = "http://localhost:8080/products"
 const getProductByIdUrl = "http://localhost:8080/product/"
+const postProductOrderUrl = "http://localhost:8080/productOrder"
 
 //Elements from Html
 const createDeliveryButton = document.getElementById("create-delivery-button")
@@ -11,15 +12,13 @@ const addRowButton = document.getElementById("add-product-quantity-button")
 const productTableBody = document.getElementById("product-table-body")
 
 //EventListener
-createDeliveryButton.addEventListener('click', postDelivery)
+createDeliveryButton.addEventListener('click', doPostProductOrder)
 addRowButton.addEventListener('click', createProductQuantityTable)
 
 //varibale to increment the id of the quantityInputTable inside create table function
 let quantityInputTableId = 1
 let productInputTableId = 1
-
-let dropDownPrice
-let dropDownWeight
+let quantityInputTaleIdArray = []
 
 async function getProduct() {
     return (await fetch(getProductsUrl)).json()
@@ -38,9 +37,6 @@ async function createProductQuantityTable() {
     //Product Dropdown
     let cell = row.insertCell(cellCount++)
     let dropDownProductTable = document.createElement('select')
-    dropDownProductTable.onchange = function () {
-        readDropDown(this)
-    }
 
     let opt = document.createElement('option');
     opt.value = ""
@@ -56,7 +52,7 @@ async function createProductQuantityTable() {
         const option = document.createElement('option')
 
         option.id = productInputTableId
-        option.value = [product.price, product.weight]
+        option.value = productInputTableId //[product.price, product.weight]
         option.textContent = product.name
         dropDownProductTable.appendChild(option)
         productInputTableId++
@@ -65,68 +61,23 @@ async function createProductQuantityTable() {
 
     //Quantity
     cell = row.insertCell(cellCount++)
-    let quatityInputTable = document.createElement('input')
-    quatityInputTable.id = "quantity-input-table" + quantityInputTableId
-    quatityInputTable.type = "number"
-    quatityInputTable.onchange = function () {
-        readQuantityInput(this)
-    }
-    cell.appendChild(quatityInputTable)
+    let quantityInputTable = document.createElement('input')
+    quantityInputTable.id = "quantity-input-table" + quantityInputTableId
+    quantityInputTable.type = "number"
+    cell.appendChild(quantityInputTable)
 
+    quantityInputTaleIdArray.push(quantityInputTableId)
     quantityInputTableId++
     productInputTableId = 1
 }
 
-//function to post new Delivery
-async function postDelivery() {
-
-    let year = document.getElementById("delivery-date-year-input").value
-    let month = document.getElementById("delivery-date-month-input").value
-    let day = document.getElementById("delivery-date-day-input").value
-    let warehouse = document.querySelector("#warehouse-drop-down").value
-    let destination = document.getElementById("destination-input").value
-
-    console.log(warehouse)
-
-    let date = year + "-" + month + "-" + day
-
-    //TODO create deeper constraints for day/month/year
-    if (year != "" && year > 2021
-        && month != "" && month < 13 && month > 0
-        && day != "" && day > 0 && day < 32
-        && warehouse != ""
-        && destination != "") {
-
-        const delivery = {
-            "deliveryDate": date,
-            "fromWarehouse": warehouse,
-            "destination": destination
-        }
-
-        const fetchOptions = {
-            method: 'POST',
-            headers: {
-                "content-type": "application/json"
-            },
-            body: ""
-        }
-
-        fetchOptions.body = JSON.stringify(delivery)
-
-        const response = await fetch(postDeliveryUrl, fetchOptions)
-
-        if (!response.ok) {
-            const errorMessage = await response.text()
-            throw new Error(errorMessage)
-        }
-        location.reload()
-    } else {
-        alert("Please fill all the fields with the correct info before creating a new Delivery")
-    }
+function doPostProductOrder() {
+    console.log(quantityInputTaleIdArray)
+    quantityInputTaleIdArray.forEach(id => postProductOrder(id))
 }
 
 //Create pOst for ProductOrder after posting the delivery, insert in the postMethod of the ProductOrder the product retreieved from table, the quantity retrieved from table and the delivery retrieved from db
-async function postProductOrder() {
+async function postProductOrder(id) {
 
     let year = document.getElementById("delivery-date-year-input").value
     let month = document.getElementById("delivery-date-month-input").value
@@ -134,7 +85,8 @@ async function postProductOrder() {
     let warehouse = document.querySelector("#warehouse-drop-down").value
     let destination = document.getElementById("destination-input").value
 
-    console.log(warehouse)
+    //number of rows of the table that is equal to the number of the tableid
+    console.log(quantityInputTableId - 1)
 
     let date = year + "-" + month + "-" + day
 
@@ -146,40 +98,36 @@ async function postProductOrder() {
         && destination != "") {
 
         const productOrder = {
-            "quantity": 7,
+            "quantity": document.querySelector("#drop-down-product-table" + id).value,
             "delivery": {
-                "deliveryId": 7,
-                "deliveryDate": "2022-12-23",
-                "fromWarehouse": "W1",
-                "destination": "Mads Sørensen, Bygmestervej 82, 1592"
+                "deliveryDate": date,
+                "fromWarehouse": warehouse,
+                "destination": destination
             },
             "product": {
-                "productId": 5,
+                "productId": document.querySelector("#quantity-input-table" + id).value,
             }
         }
+
+        const fetchOptions = {
+            method: 'POST',
+            headers: {
+                "content-type": "application/json"
+            },
+            body: ""
+        }
+
+        fetchOptions.body = JSON.stringify(productOrder)
+
+        const response = await fetch(postProductOrderUrl, fetchOptions)
+
+        if (!response.ok) {
+            const errorMessage = await response.text()
+            throw new Error(errorMessage)
+        }
+        location.reload()
+
     } else {
         alert("Please fill all the fields with the correct info before creating a new Delivery")
     }
 }
-
-//GET By id product from table and pass it in the post of productOrder
-async function getProductById() {
-    return (await fetch(getProductByIdUrl)).json()
-}
-
-//Get By id quantity from table and pass it in the post of productOrder
-
-function readQuantityInput(selectedValue) {
-    let x = selectedValue.value
-    console.log(x)
-}
-
-function readDropDown(selectedValue) {
-    let valueArray = selectedValue.value.split(",")
-    dropDownPrice = valueArray[0]
-    dropDownWeight = valueArray[1]
-
-    console.log(dropDownPrice)
-    console.log(dropDownWeight)
-}
-

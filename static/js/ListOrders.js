@@ -63,12 +63,6 @@ async function fillDropDownDelivery(list) {
 
     const options = await getDeliveries()
 
-    let opt = document.createElement('option');
-    opt.id = "all";
-    opt.value = "all"
-    opt.innerHTML = "All";
-    list.appendChild(opt);
-
     //Filters only unique warehouses
     options.forEach(delivery => {
         if (warehouseArray.includes(delivery.fromWarehouse)) {
