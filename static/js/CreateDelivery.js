@@ -20,6 +20,7 @@ async function postDelivery() {
 
     let date = year + "-" + month + "-" + day
 
+    //TODO create deeper constraints for day/month/year
     if (year != "" && year > 2021
         && month != "" && month < 13 && month > 0
         && day != "" && day > 0 && day < 32

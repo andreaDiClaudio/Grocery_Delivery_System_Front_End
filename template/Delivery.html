@@ -54,6 +54,48 @@
     </div>
 </div>
 
+
+<!--Section 'List Products'-->
+<div class="section">
+    <h2 class="title" id="display-deliveries-title">• Products List</h2>
+</div>
+
+<div class="section">
+    <label>
+        Sort by
+        <select id="drop-down">
+            <option value="" disabled selected hidden> Choose Delivery</option>
+        </select>
+    </label>
+
+    <button id="sort-by-drop-down-button">Sort</button>
+</div>
+
+<!--Table-->
+<div id="display-deliveries-div">
+    <div id="table-div">
+        <table>
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Date</th>
+                <th>Warehouse</th>
+                <th>Destination</th>
+            </tr>
+            </thead>
+            <tbody id="delivery-table-body">
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<h1>//New section where you choose the product and the quantity and attach it to an existing delivery.
+    Maybe Create a table where you can add rows and each row is a product and the column are Product(dropdown),
+    quantity(dropdown, Delivery(dropdown), price (realTime), weight (realTime)</h1>
+<h1>//Ypu can see in real time the price and weight changing based on the quantity and the product selected</h1>
+
 <script src="../static/js/CreateDelivery.js"></script>
+<script src="../static/js/ListDeliveries.js"></script>
 </body>
 </html>
