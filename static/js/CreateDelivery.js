@@ -20,8 +20,11 @@ async function postDelivery() {
 
     let date = year + "-" + month + "-" + day
 
-    console.log(date, warehouse, destination)
-    if (year != "" && month != "" && day != "" && warehouse != "" && destination != "") {
+    if (year != "" && year > 2021
+        && month != "" && month < 13 && month > 0
+        && day != "" && day > 0 && day < 32
+        && warehouse != ""
+        && destination != "") {
 
         const delivery = {
             "deliveryDate": date,
@@ -47,6 +50,6 @@ async function postDelivery() {
         }
         location.reload()
     } else {
-        alert("Please fill all the fields before creating a new product")
+        alert("Please fill all the fields with the correct info before creating a new Delivery")
     }
 }
