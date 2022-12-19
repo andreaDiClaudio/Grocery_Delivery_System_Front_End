@@ -37,6 +37,9 @@ async function createProductQuantityTable() {
     //Product Dropdown
     let cell = row.insertCell(cellCount++)
     let dropDownProductTable = document.createElement('select')
+    dropDownProductTable.onchange = function () {
+        readDropDown(this)
+    }
 
     let opt = document.createElement('option');
     opt.value = ""
@@ -51,8 +54,8 @@ async function createProductQuantityTable() {
     products.forEach(product => {
         const option = document.createElement('option')
 
-        option.id = productInputTableId
-        option.value = productInputTableId //[product.price, product.weight]
+        option.id = [product.price, product.weight]
+        option.value = productInputTableId
         option.textContent = product.name
         dropDownProductTable.appendChild(option)
         productInputTableId++
@@ -71,9 +74,12 @@ async function createProductQuantityTable() {
     productInputTableId = 1
 }
 
-function doPostProductOrder() {
-    console.log(quantityInputTaleIdArray)
-    quantityInputTaleIdArray.forEach(id => postProductOrder(id))
+function doPostProductOrder(){
+    if (quantityInputTaleIdArray.length > 0){
+        quantityInputTaleIdArray.forEach(id => postProductOrder(id))
+    } else {
+        alert("Fill all the fields correctly")
+    }
 }
 
 //Create pOst for ProductOrder after posting the delivery, insert in the postMethod of the ProductOrder the product retreieved from table, the quantity retrieved from table and the delivery retrieved from db

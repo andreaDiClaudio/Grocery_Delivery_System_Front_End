@@ -5,11 +5,13 @@ const getDeliveriesUrl = "http://localhost:8080/deliveries"
 //const getDeliveriesFromWarehouseUrl = "http://localhost:8080/deliveries/" //+ warehouse
 const getProductOrdersUrl = "http://localhost:8080/productOrders"
 const getProductOrdersFromWarehouseUrl = "http://localhost:8080/productOrders/"
+const getVansUrl = "http://localhost:8080/vans"
 
 //Elements from Html
 const ordersTableBody = document.getElementById("orders-table-body")
 const ordersDropDown = document.querySelector("#orders-drop-down")
 const warehouseSortButton = document.getElementById("sort-by-warehouse-drop-down-button")
+const vanDropDown = document.querySelector("#van-drop-down")
 
 //EventListener
 warehouseSortButton.addEventListener('click', checkDropDownValue)
@@ -23,6 +25,8 @@ function loadDeliveryFunctions() {
     loadOrdersTable()
     fillDropDownDelivery(ordersDropDown)
     fillDropDownDelivery(document.querySelector("#warehouse-drop-down"))
+    //fillDropDownDelivery(document.querySelector("#orders-drop-down"))
+    fillDropDownVan()
 }
 
 //Function that redirects the creation of the table based on the value selected in the dropdown
@@ -40,6 +44,27 @@ async function getDeliveries() {
     return (await fetch(getDeliveriesUrl)).json()
 }
 
+//get Van
+async function getVans() {
+    return (await fetch(getVansUrl)).json()
+}
+
+//Function to fill dropdown Van
+async function fillDropDownVan() {
+
+    const options = await getVans()
+
+    for (let i = 0; i < options.length; i++) {
+
+        let opt = document.createElement('option');
+
+        opt.id = options[i].vanId;
+        opt.value = options[i].vanId;
+        opt.innerHTML = options[i].brand + ", " + options[i].model;
+
+        vanDropDown.appendChild(opt);
+    }
+}
 
 //Function to fetch Deliveries including ProductOrder
 async function getDeliveriesIncludingProductOrder() {
