@@ -9,7 +9,6 @@ const createProductButton = document.getElementById("create-product-button")
 //EventListener
 createProductButton.addEventListener('click', postProduct)
 
-//Create Product//
 //function to post new Product
 async function postProduct() {
 
