@@ -21,7 +21,8 @@ window.onload = loadDeliveryFunctions()
 
 function loadDeliveryFunctions() {
     loadOrdersTable()
-    fillDropDownDelivery()
+    fillDropDownDelivery(ordersDropDown)
+    fillDropDownDelivery(document.querySelector("#warehouse-drop-down"))
 }
 
 //Function that redirects the creation of the table based on the value selected in the dropdown
@@ -58,7 +59,7 @@ async function loadTableByWarehouse() {
 }
 
 //Function to fill dropdown Product
-async function fillDropDownDelivery() {
+async function fillDropDownDelivery(list) {
 
     const options = await getDeliveries()
 
@@ -66,7 +67,7 @@ async function fillDropDownDelivery() {
     opt.id = "all";
     opt.value = "all"
     opt.innerHTML = "All";
-    ordersDropDown.appendChild(opt);
+    list.appendChild(opt);
 
 
     //Filters only unique warehouses
@@ -88,7 +89,7 @@ async function fillDropDownDelivery() {
         opt.value = warehouseArray[i];
         opt.innerHTML = warehouseArray[i];
 
-        ordersDropDown.appendChild(opt);
+        list.appendChild(opt);
     }
 }
 

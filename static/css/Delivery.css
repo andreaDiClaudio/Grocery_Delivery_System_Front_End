@@ -15,11 +15,15 @@
     padding: 10px;
 }
 
-#display-delivery-div {
+#display-order-div {
     justify-content: center;
 }
 
-#display-delivery-title {
+#orders-drop-down-div{
+    padding-bottom: 15px;
+}
+
+#display-order-title {
     padding-top: 15px;
     padding-bottom: 15px;
 }

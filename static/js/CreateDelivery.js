@@ -5,7 +5,6 @@ const postDeliveryUrl = "http://localhost:8080/delivery"
 
 //Elements from Html
 const createDeliveryButton = document.getElementById("create-delivery-button")
-
 //EventListener
 createDeliveryButton.addEventListener('click', postDelivery)
 
@@ -15,8 +14,10 @@ async function postDelivery() {
     let year = document.getElementById("delivery-date-year-input").value
     let month = document.getElementById("delivery-date-month-input").value
     let day = document.getElementById("delivery-date-day-input").value
-    let warehouse = document.getElementById("warehouse-input").value
+    let warehouse = document.querySelector("#warehouse-drop-down").value
     let destination = document.getElementById("destination-input").value
+
+    console.log(warehouse)
 
     let date = year + "-" + month + "-" + day
 
