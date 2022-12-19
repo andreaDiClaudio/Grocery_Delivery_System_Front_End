@@ -1,10 +1,16 @@
+//TASK 3 - DONE
 console.log("Inside LisDeliveries")
 //Url
 const getDeliveriesUrl = "http://localhost:8080/deliveries"
+const getDeliveriesFromWarehouseUrl = "http://localhost:8080/deliveries/" //+ warehouse
 
 //Elements from Html
 const deliveryTableBody = document.getElementById("delivery-table-body")
 const deliveryDropDown = document.querySelector("#delivery-drop-down")
+const warehouseSortButton = document.getElementById("sort-by-warehouse-drop-down-button")
+
+//EventListener
+warehouseSortButton.addEventListener('click', checkDropDownValue)
 
 let warehouseArray = []
 
@@ -22,13 +28,25 @@ function checkDropDownValue() {
     if (document.querySelector("#delivery-drop-down").value == "all") {
         loadDeliveryTable()
     } else {
-        loadTableById()
+        loadTableByWarehouse()
     }
 }
 
-//Function to fetch Products
+//Function to fetch Deliveries
 async function getDeliveries() {
     return (await fetch(getDeliveriesUrl)).json()
+}
+
+//TASK 3- Find a Specific Delivery
+async function getDeliveryByWarehouse(warehouse) {
+    return (await fetch(getDeliveriesFromWarehouseUrl + warehouse)).json()
+}
+
+//TASK 3 - Find a Specific Delivery
+async function loadTableByWarehouse() {
+    const warehouseArr = await getDeliveryByWarehouse(document.querySelector("#delivery-drop-down").value)
+    deliveryTableBody.innerHTML = "";
+    warehouseArr.forEach(delivery => createDeliveryTable(delivery))
 }
 
 //Function to fill dropdown Product
@@ -64,14 +82,6 @@ async function fillDropDownDelivery() {
 
         deliveryDropDown.appendChild(opt);
     }
-}
-
-
-//TASK 2 - Find a Specific Product - DONE
-async function loadTableByWarehouse() {
-    const product = await getDeliveryByWarehouse(document.querySelector("#drop-down").value)
-    deliveryTableBody.innerHTML = "";
-    createProductTable(product)
 }
 
 //Function to load the table
