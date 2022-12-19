@@ -3,21 +3,73 @@ console.log("Inside ListProducts.js")
 
 //Url
 const getProductsUrl = "http://localhost:8080/products"
-const deleteProductUrl = "http://localhost:8080/deleteProduct/"
-const updateProductUrl = "http://localhost:8080/editProduct/"
+const getProductByIdUrl = "http://localhost:8080/product/" // + id
+const deleteProductUrl = "http://localhost:8080/deleteProduct/" // + id
+const updateProductUrl = "http://localhost:8080/editProduct/" // + id
 
 //Elements from Html
 const tableBody = document.getElementById("table-body")
+const dropDownProduct = document.getElementById("drop-down")
+const sortButton = document.getElementById("sort-by-drop-down-button")
+
+//EventListener
+sortButton.addEventListener('click', checkDropDownValue)
 
 //onload
-window.onload = loadTable()
+window.onload = fillDropDownProduct()
+
+function checkDropDownValue(){
+    if (document.querySelector("#drop-down").value == "all"){
+        tableBody.innerHTML = "";
+        loadTable()
+    } else {
+        tableBody.innerHTML = "";
+        loadTableById()
+    }
+}
 
 //Function to fetch Products
 async function getProducts() {
     return (await fetch(getProductsUrl)).json()
 }
 
-//TASK 2 - Delete Product - DONE TODO alert message if the product is linked to a delivery
+//Function to fill dropdown Product
+async function fillDropDownProduct(){
+
+    const options = await getProducts()
+
+    let opt = document.createElement('option');
+    opt.id = "all";
+    opt.value = "all"
+    opt.innerHTML = "All";
+    dropDownProduct.appendChild(opt);
+
+    for (let i = 0; i < options.length; i++) {
+
+        let opt = document.createElement('option');
+
+        opt.id = options[i].productId;
+        opt.value = options[i].productId;
+        opt.innerHTML = options[i].name;
+
+        dropDownProduct.appendChild(opt);
+    }
+}
+
+//TASK 2 - Find a Specific Product -
+async function getProductById(productId){
+    return (await fetch(getProductByIdUrl+ productId)).json()
+}
+
+async function loadTableById(){
+    const product = await getProductById(document.querySelector("#drop-down").value)
+    createProductTable(product)
+}
+
+//TASK 2 - Delete Product - DONE
+//TODO
+// Fetch delivery and check if the product is inside the delivery and in case disable the buttons/put innerHtml
+// with message “cannot edit/update Because it is  already attached to a delivery
 //Function to call the deleteProduct()
 async function doDeleteProduct(productId) {
     const response = await deleteProduct(productId)
@@ -146,8 +198,10 @@ function createProductTable(product) {
     let deleteButton = document.createElement("button")
     deleteButton.textContent = "Delete"
 
-    //TODO alert message if the product is linked to a delivery
     //TASK 2 - Delete Product - DONE
+    //TODO
+    // Fetch delivery and check if the product is inside the delivery and in case disable the buttons/put innerHtml
+    // with message “cannot edit/update Because it is  already attached to a delivery
     deleteButton.addEventListener('click', function () {
         console.log("Delete working")
         let result = confirm("You are deleting product: '" + product.name + "'" +
