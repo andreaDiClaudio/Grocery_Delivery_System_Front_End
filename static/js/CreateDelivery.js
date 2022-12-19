@@ -35,6 +35,14 @@ async function createProductQuantityTable() {
     let cell = row.insertCell(cellCount++)
     let dropDownProductTable = document.createElement('select')
 
+    let opt = document.createElement('option');
+    opt.value = ""
+    opt.innerHTML = "Choose Product";
+    opt.hidden = true
+    opt.disabled = true
+    opt.selected = true
+    dropDownProductTable.appendChild(opt);
+
     products.forEach(product => {
         dropDownProductTable.id = "drop-down-product-table" + productInputTableId
         const option = document.createElement('option')
@@ -42,6 +50,7 @@ async function createProductQuantityTable() {
         option.textContent = product.name
         option.value = productInputTableId
         dropDownProductTable.appendChild(option)
+        productInputTableId++
     })
     cell.appendChild(dropDownProductTable)
 
@@ -53,7 +62,7 @@ async function createProductQuantityTable() {
     cell.appendChild(quatityInputTable)
 
     quantityInputTableId++
-    productInputTableId++
+    productInputTableId = 1
 }
 
 //function to post new Delivery
