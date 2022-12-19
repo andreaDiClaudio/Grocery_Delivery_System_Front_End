@@ -16,14 +16,19 @@ const sortButton = document.getElementById("sort-by-drop-down-button")
 sortButton.addEventListener('click', checkDropDownValue)
 
 //onload
-window.onload = fillDropDownProduct()
+window.onload = loadFunctions
 
-function checkDropDownValue(){
-    if (document.querySelector("#drop-down").value == "all"){
-        tableBody.innerHTML = "";
+//Call the function onload of the page
+function loadFunctions() {
+    loadTable()
+    fillDropDownProduct()
+}
+
+//Function that redirects the creation of the table based on the value selected in the dropdown
+function checkDropDownValue() {
+    if (document.querySelector("#drop-down").value == "all") {
         loadTable()
     } else {
-        tableBody.innerHTML = "";
         loadTableById()
     }
 }
@@ -34,7 +39,7 @@ async function getProducts() {
 }
 
 //Function to fill dropdown Product
-async function fillDropDownProduct(){
+async function fillDropDownProduct() {
 
     const options = await getProducts()
 
@@ -56,13 +61,15 @@ async function fillDropDownProduct(){
     }
 }
 
-//TASK 2 - Find a Specific Product -
-async function getProductById(productId){
-    return (await fetch(getProductByIdUrl+ productId)).json()
+//TASK 2 - Find a Specific Product - DONE
+async function getProductById(productId) {
+    return (await fetch(getProductByIdUrl + productId)).json()
 }
 
-async function loadTableById(){
+//TASK 2 - Find a Specific Product - DONE
+async function loadTableById() {
     const product = await getProductById(document.querySelector("#drop-down").value)
+    tableBody.innerHTML = "";
     createProductTable(product)
 }
 
@@ -139,6 +146,7 @@ async function updateProduct(productId) {
 //Function to load the table
 async function loadTable() {
     let productsArray = await getProducts()
+    tableBody.innerHTML = "";
     productsArray.forEach(product => createProductTable(product))
 }
 
