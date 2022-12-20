@@ -10,6 +10,7 @@ const postProductOrderUrl = "http://localhost:8080/productOrder"
 const createDeliveryButton = document.getElementById("create-delivery-button")
 const addRowButton = document.getElementById("add-product-quantity-button")
 const productTableBody = document.getElementById("product-table-body")
+const priceWeightTableBody = document.getElementById("price-weight-table-body")
 
 //EventListener
 createDeliveryButton.addEventListener('click', doPostProductOrder)
@@ -152,11 +153,47 @@ async function postProductOrder(id) {
     }
 }
 
+let pricesArray = []
+let weightsArray= []
+let quantityArray = []
+
 function readDropdown(select){
     let x = select.options[select.selectedIndex].id.split(",")
     console.log(x)
+    pricesArray.push(x[0])
+    weightsArray.push(x[1])
 }
 
 function readQuantityInput(quantity){
     console.log(quantity.value)
+    quantityArray.push(quantity.value)
+
+    quantityInputTaleIdArray.forEach(row => {
+        updatePriceTable(pricesArray, quantityArray, weightsArray)
+    })
+}
+
+function updatePriceTable(price, quantity, weight){
+
+    let currentPrice
+    let currentWeight
+    for (let i = 0; i <quantityInputTaleIdArray.length; i++) {
+        currentPrice += pricesArray[i]
+        currentWeight += weightsArray[i]
+    }
+
+    console.log(currentPrice, currentWeight)
+
+    let cellCount = 0
+    let rowCount = priceWeightTableBody.rows.length
+
+    let row = priceWeightTableBody.insertRow(rowCount)
+
+    //Current price
+    let cell = row.insertCell(cellCount++)
+    cell.innerHTML = currentPrice
+
+    //Current weight
+    cell = row.insertCell(cellCount++)
+    cell.innerHTML = "currentWeight"
 }

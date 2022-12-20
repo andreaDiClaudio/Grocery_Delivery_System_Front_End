@@ -18,6 +18,7 @@
 
 #create-delivery-table-div {
     padding: 15px;
+    display: flex;
 }
 
 #create-delivery-button-div {
