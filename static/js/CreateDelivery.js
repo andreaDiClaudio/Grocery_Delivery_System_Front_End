@@ -38,7 +38,7 @@ async function createProductQuantityTable() {
     let cell = row.insertCell(cellCount++)
     let dropDownProductTable = document.createElement('select')
     dropDownProductTable.onchange = function () {
-        readDropDown(this)
+        readDropdown(this)
     }
 
     let opt = document.createElement('option');
@@ -65,6 +65,9 @@ async function createProductQuantityTable() {
     //Quantity
     cell = row.insertCell(cellCount++)
     let quantityInputTable = document.createElement('input')
+    quantityInputTable.onchange = function (){
+        readQuantityInput(this)
+    }
     quantityInputTable.id = "quantity-input-table" + quantityInputTableId
     quantityInputTable.type = "number"
     cell.appendChild(quantityInputTable)
@@ -147,4 +150,13 @@ async function postProductOrder(id) {
     } else {
         alert("Please fill all the fields with the correct info before creating a new Delivery")
     }
+}
+
+function readDropdown(select){
+    let x = select.options[select.selectedIndex].id.split(",")
+    console.log(x)
+}
+
+function readQuantityInput(quantity){
+    console.log(quantity.value)
 }
