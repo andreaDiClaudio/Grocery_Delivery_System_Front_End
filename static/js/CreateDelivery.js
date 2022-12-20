@@ -156,12 +156,14 @@ async function postProductOrder(id) {
 let pricesArray = []
 let weightsArray= []
 let quantityArray = []
+let oldQuantityInputTaleIdArray = []
 
 function readDropdown(select){
     let x = select.options[select.selectedIndex].id.split(",")
     console.log(x)
     pricesArray.push(x[0])
     weightsArray.push(x[1])
+
 }
 
 function readQuantityInput(quantity){
@@ -175,11 +177,27 @@ function readQuantityInput(quantity){
 
 function updatePriceTable(price, quantity, weight){
 
+    console.log(price)
+    console.log(quantity)
+    console.log(weight)
+
+    priceWeightTableBody.innerHTML = ""
+
     let currentPrice
     let currentWeight
-    for (let i = 0; i <quantityInputTaleIdArray.length; i++) {
-        currentPrice += pricesArray[i]
-        currentWeight += weightsArray[i]
+
+    currentPrice = price[0] * quantity[0]
+    currentWeight = weight[0] * quantity[0]
+
+
+    for (let i = 1; i <quantityInputTaleIdArray.length; i++) {
+
+        console.log("CUrrent price= " + currentPrice)
+        console.log("Prices" + price[i])
+        console.log("weights" + weight[i])
+
+        currentPrice = (currentPrice + price[i]) + quantity[i]
+        currentWeight = (currentWeight + weight[i])  + quantity[i]
     }
 
     console.log(currentPrice, currentWeight)
@@ -195,6 +213,6 @@ function updatePriceTable(price, quantity, weight){
 
     //Current weight
     cell = row.insertCell(cellCount++)
-    cell.innerHTML = "currentWeight"
+    cell.innerHTML = currentWeight
 
 }
