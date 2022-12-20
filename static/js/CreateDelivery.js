@@ -75,8 +75,13 @@ async function createProductQuantityTable() {
 }
 
 function doPostProductOrder(){
+    console.log(quantityInputTaleIdArray)
     if (quantityInputTaleIdArray.length > 0){
-        quantityInputTaleIdArray.forEach(id => postProductOrder(id))
+        console.log(quantityInputTaleIdArray)
+
+        for (let i = 0; i < quantityInputTaleIdArray.length; i++) {
+            postProductOrder(quantityInputTaleIdArray[i])
+        }
     } else {
         alert("Fill all the fields correctly")
     }
@@ -91,12 +96,15 @@ async function postProductOrder(id) {
     let warehouse = document.querySelector("#warehouse-drop-down").value
     let destination = document.getElementById("destination-input").value
 
-    //number of rows of the table that is equal to the number of the tableid
-    console.log(quantityInputTableId - 1)
-
     let date = year + "-" + month + "-" + day
 
-    //TODO create deeper constraints for day/month/year
+    console.log("Date:" + date)
+    console.log("Warehouse:" + warehouse)
+    console.log("Destination:" + destination)
+    console.log("VanDROPDOWN: " +document.querySelector("#van-drop-down").value)
+    console.log("Quantity:" + document.querySelector("#quantity-input-table" + id).value)
+    console.log("Product id:" + document.querySelector("#drop-down-product-table" + id).value)
+
     if (year != "" && year > 2021
         && month != "" && month < 13 && month > 0
         && day != "" && day > 0 && day < 32
@@ -104,7 +112,7 @@ async function postProductOrder(id) {
         && destination != "") {
 
         const productOrder = {
-            "quantity": document.querySelector("#drop-down-product-table" + id).value,
+            "quantity": document.querySelector("#quantity-input-table" + id).value,
             "delivery": {
                 "deliveryDate": date,
                 "fromWarehouse": warehouse,
@@ -114,7 +122,7 @@ async function postProductOrder(id) {
                 }
             },
             "product": {
-                "productId": document.querySelector("#quantity-input-table" + id).value,
+                "productId": document.querySelector("#drop-down-product-table" + id).value,
             }
         }
 
@@ -134,7 +142,7 @@ async function postProductOrder(id) {
             const errorMessage = await response.text()
             throw new Error(errorMessage)
         }
-        location.reload()
+        //location.reload()
 
     } else {
         alert("Please fill all the fields with the correct info before creating a new Delivery")
