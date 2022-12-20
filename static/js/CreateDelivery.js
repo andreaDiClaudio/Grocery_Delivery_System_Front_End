@@ -66,7 +66,7 @@ async function createProductQuantityTable() {
     //Quantity
     cell = row.insertCell(cellCount++)
     let quantityInputTable = document.createElement('input')
-    quantityInputTable.onchange = function (){
+    quantityInputTable.onchange = function () {
         readQuantityInput(this)
     }
     quantityInputTable.id = "quantity-input-table" + quantityInputTableId
@@ -78,9 +78,9 @@ async function createProductQuantityTable() {
     productInputTableId = 1
 }
 
-function doPostProductOrder(){
+function doPostProductOrder() {
     console.log(quantityInputTaleIdArray)
-    if (quantityInputTaleIdArray.length > 0){
+    if (quantityInputTaleIdArray.length > 0) {
         console.log(quantityInputTaleIdArray)
 
         for (let i = 0; i < quantityInputTaleIdArray.length; i++) {
@@ -105,7 +105,7 @@ async function postProductOrder(id) {
     console.log("Date:" + date)
     console.log("Warehouse:" + warehouse)
     console.log("Destination:" + destination)
-    console.log("VanDROPDOWN: " +document.querySelector("#van-drop-down").value)
+    console.log("VanDROPDOWN: " + document.querySelector("#van-drop-down").value)
     console.log("Quantity:" + document.querySelector("#quantity-input-table" + id).value)
     console.log("Product id:" + document.querySelector("#drop-down-product-table" + id).value)
 
@@ -154,11 +154,11 @@ async function postProductOrder(id) {
 }
 
 let pricesArray = []
-let weightsArray= []
+let weightsArray = []
 let quantityArray = []
 let oldQuantityInputTaleIdArray = []
 
-function readDropdown(select){
+function readDropdown(select) {
     let x = select.options[select.selectedIndex].id.split(",")
     console.log(x)
     pricesArray.push(x[0])
@@ -166,7 +166,7 @@ function readDropdown(select){
 
 }
 
-function readQuantityInput(quantity){
+function readQuantityInput(quantity) {
     console.log(quantity.value)
     quantityArray.push(quantity.value)
 
@@ -175,13 +175,12 @@ function readQuantityInput(quantity){
     })
 }
 
-function updatePriceTable(price, quantity, weight){
+function updatePriceTable(price, quantity, weight) {
 
     console.log(price)
     console.log(quantity)
     console.log(weight)
 
-    priceWeightTableBody.innerHTML = ""
 
     let currentPrice
     let currentWeight
@@ -190,14 +189,19 @@ function updatePriceTable(price, quantity, weight){
     currentWeight = weight[0] * quantity[0]
 
 
-    for (let i = 1; i <quantityInputTaleIdArray.length; i++) {
+    console.log("CUrrent price= " + currentPrice)
+    console.log(currentWeight)
+
+
+    for (let i = 1; i < quantityInputTaleIdArray.length; i++) {
+
+        priceWeightTableBody.innerHTML = ""
+
+        currentPrice = (+currentPrice + +price[i]) * +quantity[i]
+        currentWeight = (+currentWeight + +weight[i]) * +quantity[i]
 
         console.log("CUrrent price= " + currentPrice)
-        console.log("Prices" + price[i])
-        console.log("weights" + weight[i])
-
-        currentPrice = (currentPrice + price[i]) + quantity[i]
-        currentWeight = (currentWeight + weight[i])  + quantity[i]
+        console.log(currentWeight)
     }
 
     console.log(currentPrice, currentWeight)

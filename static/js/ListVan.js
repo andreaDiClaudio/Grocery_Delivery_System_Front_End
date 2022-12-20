@@ -44,9 +44,9 @@ async function getDeliveriesByVan(id) {
 
 //Function to load table
 async function loadVanTable() {
+    vanTableBody.innerHTML = "";
     let selected = vanDropDown.value
     let deliveriesVanArray = await getDeliveriesByVan(selected)
-    vanTableBody.innerHTML = "";
     deliveriesVanArray.forEach(delivery => createDeliveriesByVanTable(delivery))
 }
 
