@@ -196,4 +196,5 @@ function updatePriceTable(price, quantity, weight){
     //Current weight
     cell = row.insertCell(cellCount++)
     cell.innerHTML = "currentWeight"
+
 }
