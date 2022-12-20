@@ -153,10 +153,10 @@ async function postProductOrder(id) {
     }
 }
 
+// TASK 3 - continuously see the total price and weight for the delivery-  DONE
 let pricesArray = []
 let weightsArray = []
 let quantityArray = []
-let oldQuantityInputTaleIdArray = []
 
 function readDropdown(select) {
     let x = select.options[select.selectedIndex].id.split(",")
