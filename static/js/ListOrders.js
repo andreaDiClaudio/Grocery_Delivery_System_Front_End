@@ -2,7 +2,6 @@
 console.log("Inside LisDeliveries")
 //Url
 const getDeliveriesUrl = "http://localhost:8080/deliveries"
-//const getDeliveriesFromWarehouseUrl = "http://localhost:8080/deliveries/" //+ warehouse
 const getProductOrdersUrl = "http://localhost:8080/productOrders"
 const getProductOrdersFromWarehouseUrl = "http://localhost:8080/productOrders/"
 const getVansUrl = "http://localhost:8080/vans"

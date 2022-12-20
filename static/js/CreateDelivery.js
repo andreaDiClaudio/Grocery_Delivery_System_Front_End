@@ -5,6 +5,7 @@ const postDeliveryUrl = "http://localhost:8080/delivery"
 const getProductsUrl = "http://localhost:8080/products"
 const getProductByIdUrl = "http://localhost:8080/product/"
 const postProductOrderUrl = "http://localhost:8080/productOrder"
+const postVanByIDUrl = "http://localhost:8080/van("
 
 //Elements from Html
 const createDeliveryButton = document.getElementById("create-delivery-button")
@@ -15,6 +16,9 @@ const priceWeightTableBody = document.getElementById("price-weight-table-body")
 //EventListener
 createDeliveryButton.addEventListener('click', doPostProductOrder)
 addRowButton.addEventListener('click', createProductQuantityTable)
+
+let currentPrice
+let currentWeight
 
 //varibale to increment the id of the quantityInputTable inside create table function
 let quantityInputTableId = 1
@@ -146,7 +150,7 @@ async function postProductOrder(id) {
             const errorMessage = await response.text()
             throw new Error(errorMessage)
         }
-        //location.reload()
+        location.reload()
 
     } else {
         alert("Please fill all the fields with the correct info before creating a new Delivery")
@@ -180,10 +184,6 @@ function updatePriceTable(price, quantity, weight) {
     console.log(price)
     console.log(quantity)
     console.log(weight)
-
-
-    let currentPrice
-    let currentWeight
 
     currentPrice = price[0] * quantity[0]
     currentWeight = weight[0] * quantity[0]
