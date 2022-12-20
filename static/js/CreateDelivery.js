@@ -213,10 +213,10 @@ function updatePriceTable(price, quantity, weight) {
 
     //Current price
     let cell = row.insertCell(cellCount++)
-    cell.innerHTML = currentPrice
+    cell.innerHTML = currentPrice + "dkk"
 
     //Current weight
     cell = row.insertCell(cellCount++)
-    cell.innerHTML = currentWeight
+    cell.innerHTML = currentWeight + " g"
 
 }
